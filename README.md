@@ -2,6 +2,5 @@
 
 iRecognize.org
 
-Shows some of Python and Jinja2 codes.
-
-iRecognize is implemented in Python's Flask framework and Stripe API for recurring payments.
+Shows some of Python and Jinja2 code used on the site.
+Site uses Python's Flask framework and Stripe API for recurring payments.
