@@ -1,0 +1,74 @@
+
+<nav class="full-width white top-bar nav-text-container" data-topbar role="navigation">
+
+  <ul class="title-area">
+    <li class="name" id="logo">
+      {% if current_user.is_authenticated() and current_user.organization %}
+      <a href="{{ url_for('org.recognition_page', organization_slug=current_user.organization.slug) }}">
+      {% else %}
+      <a href="{{ url_for('main.index') }}">
+      {% endif %}
+      <span id="logo-title">iRecognize</span></a>
+    </li>
+    <li class="toggle-topbar menu-icon">
+      <a href="#"><span>menu</span></a>
+    </li>
+  </ul>
+
+  <section class="top-bar-section">
+    <ul class="right">
+
+      {% if current_user.is_authenticated() %}
+        {% if current_user.organization %}
+        <li class="signup-button">
+          <a href="{{ url_for('org.recognition_page', organization_slug=current_user.organization.slug) }}"
+             class="button tiny signup-padding [radius round]">THANK
+            SOMEONE NOW!</a>
+        </li>
+        {% endif %}
+        {% if current_user.is_org_admin() %}
+        <li><a
+            href="{{ url_for('org.organization_admin_dashboard', organization_slug=current_user.organization.slug) }}">
+          Admin Dashboard</a></li>
+        {% endif %}
+        {% if current_user.is_super_admin() %}
+        <li><a href="/admin">
+          Super Admin</a>
+        </li>
+        {% endif %}
+
+        <li class="has-dropdown not-click">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="{{ current_user.gravatar(size=18) }}">
+            Logged in as {{current_user.name}} <b class="caret"></b>
+          </a>
+          <ul class="dropdown">
+            <li class="title back js-generated"><h5><a href="javascript:void(0)">Back</a></h5></li>
+            <li><a href="{{ url_for('profile.user', id=current_user.id) }}">Profile</a></li>
+            <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+          </ul>
+        </li>
+      {% else %}
+      <li>
+        <a href="{{ url_for('main.faq') }}">FAQ</a>
+      </li>
+      <li>
+        <a href="{{ url_for('auth.register_org_admin') }}#prices">Plans & Pricing</a>
+      </li>
+      <li>
+        <a href="{{ url_for('auth.login') }}">login</a>
+      </li>
+      <li>
+        <div class='signup-button'>
+        <a href="{{ url_for('auth.register_org_admin') }}" class="button tiny signup-padding [radius round]">SIGN UP
+        FREE!</a>
+        </div>
+      </li>
+
+      {% endif %}
+
+    </ul>
+  </section>
+
+</nav>

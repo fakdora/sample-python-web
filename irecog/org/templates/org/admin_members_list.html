@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+
+{% block title %}Admin members{% endblock %}
+
+{% block page_content %}
+
+<div class="full-width member-list">
+
+  <div class="row collapse">
+    <div class="medium-12 small-12 medium-centered columns">
+      <div class="pricing-header">Members manage page</div>
+    </div>
+  </div>
+
+  <div class="row collapse">
+    <div class="medium-12 small-12 medium-centered columns">
+      <table>
+        <thead>
+        <tr>
+          <td>Name</td>
+          <td>Dept</td>
+          <td>Position</td>
+          <td>Role</td>
+          <td>Email</td>
+          <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for member in current_user.organization.users %}
+        <tr>
+          <td>
+            <a href="{{url_for('profile.user', id=member.id)}}">{{ member.name }}</a>
+          </td>
+          <td>
+            {{ member.department.name }}
+          </td>
+          <td>
+            {{ member.position }}
+          </td>
+          <td>
+            {{ member.role.name }}
+          </td>
+          <td>
+            {{ member.email }}
+          </td>
+          <td>
+            <a href="{{url_for('profile.user', id=member.id)}}">View</a> |
+            <a href="{{url_for('profile.edit_profile_org_admin', id=member.id)}}">Edit</a> |
+            <a href="{{url_for('org.member_delete', user_id=member.id)}}">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+      <a href="{{ url_for('org.organization_admin_dashboard', organization_slug=current_user.organization.slug) }}">
+        < Go back to Admin Dashboard</a><br />
+    </div>
+
+  </div>
+</div>
+{% endblock %}

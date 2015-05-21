@@ -1,0 +1,59 @@
+{% extends "foundation/base.html" %}
+
+{% block title %}iRecognize{% endblock %}
+
+{% block head %}
+{{ super() }}
+
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/thnks.css') }}">
+
+<link href='//fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+
+{% endblock %}
+
+{% block head_extra %}
+{% endblock %}
+
+
+{% block navbar %}
+  {% include "blocks/nav.html" %}
+{% endblock %}
+
+
+
+{% block content %}
+<div style="padding-top:75px;"></div>
+
+<div class="full-width">
+  <div class="row">
+    <div class="medium-10 medium-centered small-12 end columns">
+      {% for message in get_flashed_messages() %}
+      <div data-alert class="alert-box success radius">
+        {{ message|safe }}
+        <a href="#" class="close">&times;</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% block page_content %}{% endblock %}
+
+    {% include "blocks/footer.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

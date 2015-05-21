@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "auth/_form_helpers.html" import render_field %}
+
+{% block title %}{{ current_user.organization.name }}{% endblock %}
+
+{% block page_content %}
+<!-- user-landing-header -->
+<div class="full-width user-landing-header">
+  <div class="row">
+    <div class="medium-8 medium-centered columns">
+      <div class="nomination-form">
+        {% if registering_now_step4 and not submitted %}
+        <div class="step-message">
+          Step #3 of 3 <br />
+          <span class="signup-message-subhead">Recognize employees you just added!</span>
+        </div>
+        {% endif %}
+
+        <div class="signup-input" style="text-align:center">
+          <h2>
+            {{ org.name|capitalize }} <br/>
+            <span style="font-size:24px;">Employee Recognition</span>
+          </h2>
+          {% if org.prize %}
+          <div style="line-height:32px;margin-bottom:28px;">Chosen winner gets a prize of <span style="color:#ff0000">{{ org.prize }}</span> every month!!</div>
+          {% endif %}
+        </div>
+
+        {% if submitted %}
+        <div class="step-message" style="">
+          Thank you for recognizing!
+        </div>
+        {% else %}
+        <form action="" method="post">
+          {% if error %}{{ error }}{% endif %}
+          {{ form.hidden_tag() }}
+          {{ render_field(form.nominee) }}
+          {{ render_field(form.reason) }}
+          {{ render_field(form.submit) }}
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end user-landing-header -->
+
+<!-- user-landing-main -->
+<div class="full-width user-landing-main">
+
+  {% if org.current_award %}
+  <div class="row collapse">
+    <div class="medium-12 small-12 medium-centered columns">
+      <div class="pricing-header">{{org.current_award.display_name}}</div>
+    </div>
+  </div>
+
+  <div class="row row-user-landing-entry" data-equalizer>
+    {% if not org.current_award.recognitions.all() %}
+      <div class="medium-12 small-12 medium-centered columns">
+        <div class="pricing-header">Start Thanking</div>
+      </div>
+    {% endif %}
+
+    {% for rec in org.current_award.recognitions|reverse %}
+    {% if rec.approved %} {# only show approve recognitions #}
+    <div class="medium-6 small-6 columns {% if loop.index is even %} end {% endif %}"
+         data-equalizer-watch>
+      <div class="user-landing-entry">
+        <div class="row collapse">
+          <div class="medium-3 columns">
+            <a href="{{url_for('profile.user', id=rec.nominee.id)}}">
+              <div class="user-landing-name-container">
+                <div class="user-landing-name">{{rec.nominee.name}}</div>
+                {% if rec.nominee.department %}
+                <div class="user-landing-department">{{rec.nominee.department}}</div>
+                {% endif %}
+              </div>
+              <div class="user-landing-avatar">
+                {% if rec.nominee %}
+                <img src="{{ rec.nominee.gravatar(size=256) }}">
+                {% endif %}
+              </div>
+            </a>
+          </div>
+          <div class="medium-9 columns">
+            <div class="user-landing-description">
+              {% if rec.winner %}
+              <img src="{{ url_for('static', filename='img/trophy.gif') }}"/>
+              {% endif %}
+              {{rec.reason}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if loop.index is even %}
+    </div>
+    <div class="row row-user-landing-entry" data-equalizer>
+      {% endif %}
+    {% endif %} {# if rec.approved #}
+    {% endfor %}
+  </div>
+  </div>
+  {% else %}
+  <h3>Currently, there is no award</h3>
+  {% endif %}
+
+
+  <div class="full-width user-landing-main">
+    {% for award in org.past_awards %}
+    <div class="row collapse">
+      <div class="medium-12 small-12 medium-centered columns">
+        <div class="pricing-header">{{award.display_name}}</div>
+      </div>
+    </div>
+
+    {% for rec in award.recognitions|reverse %}
+    {% if rec.approved %}
+    <div class="row row-user-landing-entry" data-equalizer>
+      <div class="medium-6 small-12 columns" data-equalizer-watch>
+        <div class="user-landing-entry">
+          <div class="user-landing-name2">{{rec.nominee.name}}</div>
+          {% if rec.nominee.department %}
+          <div class="user-landing-department2">{{rec.nominee.department}}</div>
+          {% endif %}
+          <div class="user-landing-description2">
+            {{rec.reason}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </div>
+  <!-- end user-landing-header -->
+{% endblock %}
+
+
+{% block extra_js %}
+
+  <script language="JavaScript">
+    $(function () {
+      var employee_names = [
+        {% for e in org.users %}
+          "{{ e.name|title }}",
+        {% endfor %}
+      ]
+
+      $('#nominee').autocomplete(
+        {source: employee_names, autoFocus: true, change: false});
+    })
+  </script>
+{% endblock %}
+

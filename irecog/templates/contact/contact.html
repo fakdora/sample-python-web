@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% from "auth/_form_helpers.html" import render_field %}
+{% block page_content %}
+
+<div class="full-width signup-container">
+
+  <div class="signup-content">
+    <!-- signup1-->
+    <div class="row collapsed">
+      <div class="medium-10 medium-centered small-12 end columns">
+        <div class="signup-message">
+          Contact Us
+          <div class="signup-message-subhead">
+            Please checkout our <a href="{{ url_for('main.faq') }}">FAQ</a> page.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row collapsed">
+      <div class="medium-10 medium-centered small-12 end columns">
+        <div class="signup-box">
+
+          {% if sent %}
+
+          <h2>Thank you for your inquiry. We'll get back to you soon.</h2>
+
+          {% else %}
+            {% include 'contact/_contact_form.html' %}
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

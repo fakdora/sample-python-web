@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% from "auth/_form_helpers.html" import render_field %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block page_content %}
+
+<div class="full-width signup-container">
+
+  <div class="signup-content">
+    <!-- signup1-->
+    <div class="row collapsed">
+      <div class="medium-10 medium-centered small-12 end columns">
+        <div class="signup-message">
+          Edit Profile
+        </div>
+      </div>
+    </div>
+
+    <div class="row collapsed">
+
+      <div class="medium-10 medium-centered small-12 end columns">
+
+        <div class="signup-box">
+          <form method="post" action="">
+            <div class="row">
+              <div class="medium-8 medium-centered columns">
+                <div class="signup-form-right">
+
+                  {{ form.hidden_tag() }}
+                  {{ render_field(form.first_name) }}
+                  {{ render_field(form.last_name) }}
+                  {{ render_field(form.position) }}
+                  {{ render_field(form.department) }}
+                  {{ render_field(form.location) }}
+                  {{ render_field(form.about_me) }}
+
+                </div>
+              </div>
+            </div>
+            {{ render_field(form.submit) }}
+          </form>
+
+          <br/>
+
+          <p>
+            <a href="{{ url_for('profile.user', id=current_user.id) }}">Go back to the profile page </a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

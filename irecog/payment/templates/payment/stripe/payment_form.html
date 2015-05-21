@@ -1,0 +1,28 @@
+<form action="" method="POST">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  {% if card %}
+  <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="{{stripe_public}}"
+      data-name="Change Credit Card"
+      data-description=""
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-email="{{current_user.email}}"
+      data-allow-remember-me="false"
+      data-label="Change Credit Card"
+      data-panel-label="Update">
+  </script>
+  {% else %}
+  <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="{{stripe_public}}"
+      data-name="Add a Credit Card"
+      data-description=""
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-email="{{current_user.email}}"
+      data-allow-remember-me="false"
+      data-label="Add a Credit Card"
+      data-panel-label="Add">
+  </script>
+  {% endif %}
+</form>

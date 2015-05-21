@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ{% endblock %}
+
+{% block page_content %}
+
+<div class="full-width faq-page">
+  <div class="row collapse">
+    <div class="medium-12 white">
+      <section class="faq">
+        <h1>Frequently Asked Questions</h1>
+        <article class="faq-answer" id="pricing-for-classic-customers">
+          <h2>How much does iRecognize cost? Is there a free plan?</h2>
+
+          <p>iRecognize is Free up to {{config.FREE_UP_TO_USERS}} members/employees. You can find plans and pricing
+            <a href="{{ url_for('auth.register_org_admin') }}#prices">here</a>.</p>
+
+          <p>
+            Every customer gets free {{ config.FREE_TRIAL_DAYS }} day trial period.
+          </p>
+
+        </article>
+
+        <article class="faq-answer" id="trial-end">
+          <h2>What happens when my trial ends?</h2>
+
+          <p>If your trial ends before you choose a plan, your account will freeze.
+            Your data will remain intact, though
+            inaccessible, until you
+            <a href="{{ url_for('auth.register_org_admin') }}#prices">choose a plan and add a
+              credit card</a>.
+          </p>
+
+        </article>
+
+        <article class="faq-answer" id="how-to-pay">
+          <h2>How can I pay for iRecognize?</h2>
+
+          <p>We accept all major credit cards through Stripe.
+          </p>
+
+        </article>
+
+
+
+        <article class="faq-answer" id="tech-requirements">
+          <h2>What are the technical requirements for using iRecognize?</h2>
+
+          <p>iRecognize is available anywhere you have an internet connection.
+            There's nothing to install, and all you
+            need is a modern web browser.
+          </p>
+        </article>
+
+        <article class="faq-answer" id="customising-basecamp">
+          <h2>Can I add a logo or customize iRecognize in any way?</h2>
+
+          <p>At the moment it isn't possible to customize your account or projects
+            with colors, a company logo or a
+            custom URL.
+          </p>
+
+          <p> Sorry!</p>
+
+        </article>
+
+
+
+
+
+      </section>
+    </div>
+
+  </div>
+</div>
+
+  {% endblock %}

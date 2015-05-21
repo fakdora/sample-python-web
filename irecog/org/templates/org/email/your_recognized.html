@@ -1,0 +1,21 @@
+<p>Dear {{ user.name }},</p>
+
+<p>Someone from {{ user.organization.name }} recognized you for your hard work!</p>
+
+<p>Check out
+  {{ url_for('org.recognition_page', organization_slug=user.organization.slug, _external=True) }}
+  to see the details of your recognition.
+</p>
+
+{% if user.organization.prize %}
+<p>Your name will also be added to this month's
+  raffle for a {{ user.organization.prize }} gift!</p>
+{% endif %}
+
+
+<p>If you don't know your login, please contact your HR department.</p>
+
+<p>Sincerely,</p>
+<p>The iRecognize Team</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
+

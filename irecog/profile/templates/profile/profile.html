@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.name }} Profile{% endblock %}
+
+{% block page_content %}
+
+<!-- user-landing-header -->
+<div class="full-width user-profile-header">
+  <div class="row">
+    <div class="medium-4 columns">
+      <img class="img-rounded" src="{{ user.gravatar(size=256) }}">
+    </div>
+    <div class="medium-8 columns">
+      <div>
+        {% if user.organization %}
+        <a href="{{ url_for('org.recognition_page', organization_slug=current_user.organization.slug) }}">
+          works at
+          {{user.organization.name}}</a>
+        {% endif %}
+      </div>
+      {{ user.first_name }} {{ user.last_name }}<br />
+      {% if user.role %}
+        {{ user.role.name }}
+      {% endif %}
+      <p>
+        {% if user.location %}
+          From <a href="http://maps.google.com/?q={{ user.location }}">{{ user.location }}</a><br>
+        {% endif %}
+      </p>
+
+      {% if user.department %}
+        Dept: {{ user.department }}
+      {% endif %}
+
+      {% if user.position %}
+        Position: {{ user.position }}
+      {% endif %}
+
+      {% if current_user.is_super_admin() %}
+        <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+      {% endif %}
+
+      {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+        <p>Member since {{ moment(user.member_since).format('L') }}.<br />
+        Last seen {{ moment(user.last_seen).fromNow() }}.</p>
+
+      {% if user == current_user %}
+        <a class="button [secondary success alert]"
+           href="{{ url_for('.edit_profile') }}">Edit Your Profile</a>
+      {% endif %}
+
+      {% if current_user.is_org_admin() and current_user != user %}
+        <a class="button [secondary success alert]"
+           href="{{url_for('profile.edit_profile_org_admin', id=user.id)}}">
+        Edit Profile as Org Admin
+        </a>
+      {% endif %}
+
+      {% if current_user.is_org_admin() and user == current_user %}
+      <a class="button"
+         href="{{ url_for('org.organization_admin_dashboard', organization_slug=current_user.organization.slug) }}">
+        Organization Management</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{% if user.past_received_recognitions %}
+<!-- user-landing-main -->
+<div class="full-width user-landing-main">
+  <div class="row collapse">
+    <div class="medium-12 small-12 medium-centered columns">
+      <div class="pricing-header">What people have said about me</div>
+    </div>
+  </div>
+
+  <div class="row row-user-landing-entry" data-equalizer>
+    {% for r in user.recognitions|reverse %}
+    {% if r.approved %}
+    <div class="medium-12 small-12 columns" data-equalizer-watch>
+      <div class="user-landing-entry">
+        <div class="user-landing-description2">
+          {{ r.reason }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- end user-landing-header -->
+
+
+<!-- user-landing-main -->
+
+{% if user == current_user or current_user.is_org_admin() %}
+
+<div class="full-width user-landing-main">
+  <div class="row collapse">
+    <div class="medium-12 small-12 medium-centered columns">
+      <div class="pricing-header">Who I've Thanked</div>
+
+      <div class="textcenter">
+      {% if not user.past_authored_recognitions %}
+      You haven't thanked anyone yet.
+      {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if user.past_authored_recognitions %}
+  <div class="row row-user-landing-entry" data-equalizer>
+    {% for r in user.past_authored_recognitions|reverse %}
+    {% if r.approved %}
+    <div class="medium-6 small-6 columns {% if loop.index is even %}end{% endif %}"
+         data-equalizer-watch>
+      <div class="user-landing-entry">
+        <div class="row collapse">
+          <div class="medium-3 columns">
+            <div class="user-landing-name-container">
+              <div class="user-landing-name">{{ r.nominee.name }}</div>
+              {% if r.nominee.department %}
+              <div class="user-landing-department">Finance</div>
+              {% endif %}
+            </div>
+            <div class="user-landing-avatar">
+              {% if r.nominee %}
+              <img src="{{ r.nominee.gravatar(size=137) }}" />
+              {% endif %}
+            </div>
+          </div>
+          <div class="medium-9 columns">
+            <div class="user-landing-description">{{r.reason}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+<!-- end user-landing-header -->
+
+<div class="row">
+  <div class="medium-6 medium-centered small-12 columns">
+    <div class="signup-button-form" style="margin-bottom:10px;">
+      <a href="{{ url_for('org.recognition_page', organization_slug=current_user.organization.slug) }}"
+         class="button expand [radius round]"
+         style="margin-bottom:0;">
+        THANK SOMEONE ELSE TODAY!</a></div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+{% endblock %}

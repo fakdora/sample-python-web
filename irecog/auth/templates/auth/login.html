@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "auth/_form_helpers.html" import render_field %}
+
+{% block title %}Login{% endblock %}
+
+{% block page_content %}
+
+  <div class="full-width signup-container">
+    <div class="row collapsed">
+      <div class="medium-8 medium-centered small-12 end columns">
+        <div class="signup-message">
+          Login
+        </div>
+      </div>
+    </div>
+
+    <div class="row collapsed">
+      <div class="medium-8 medium-centered small-12 end columns">
+
+        <div class="signup-box">
+          <form method="post" action="">
+            <div class="row">
+              <div class="medium-8 medium-centered columns">
+                <div class="signup-form-right">
+                  {{ form.hidden_tag() }}
+                  {{ render_field(form.email) }}
+                  {{ render_field(form.password) }}
+                </div>
+              </div>
+            </div>
+            {{ render_field(form.submit) }}
+          </form>
+
+          <br />
+          <p>Forgot your password? <a href="{{ url_for('auth.password_reset_request') }}">Click here to reset it</a>.</p>
+          <p>New user? <a href="{{ url_for('auth.register_org_admin') }}">Click here to register</a>.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

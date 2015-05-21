@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "auth/_form_helpers.html" import render_field %}
+
+{% block title %}Upload CSV File{% endblock %}
+
+{% block page_content %}
+
+<div class="full-width signup-container">
+  <div class="signup-content">
+    <!-- signup1-->
+    <div class="row collapsed">
+      <div class="medium-10 medium-centered small-12 end columns">
+        <div class="signup-message">Upload a CSV file
+        </div>
+      </div>
+    </div>
+
+    <div class="row collapsed">
+      <div class="medium-10 medium-centered small-12 end columns">
+        <div class="signup-box">
+          <form method="post" action="">
+            <div class="row">
+              <div class="medium-6 medium-centered columns">
+                (4 columns: name, email, dept, position)
+                <div class="signup-form-right">
+                  {{ form.hidden_tag() }}
+                  {{ render_field(form.csv_file) }}
+                </div>
+              </div>
+            </div>
+            {{ render_field(form.submit) }}
+
+            If you need help with uploading CSV file,<br />
+            email us the csv file to
+
+            <a href="mailto:{{emailto}}?subject=Upload%CSV"
+               target="_top">{{emailto}}</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

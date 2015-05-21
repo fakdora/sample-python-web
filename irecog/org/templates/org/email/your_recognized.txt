@@ -1,0 +1,17 @@
+Dear {{ user.name }},
+
+Someone from {{ user.organization.name }} recognized you for your hard work!
+
+Check out {{ url_for('org.recognition_page', organization_slug=user.organization.slug, _external=True) }} to see the details of your recognition.
+
+{% if user.organization.prize %}
+Your name will also be added to this month's raffle for a {{ user.organization.prize }} gift!'
+{% endif %}
+
+If you don't know your login, please contact your HR department.
+
+Sincerely,
+
+The iRecognize Team
+
+Note: replies to this email address are not monitored.

@@ -1,0 +1,16 @@
+{% from "auth/_form_helpers.html" import render_field %}
+
+<form method="post" action="{{url_for('main.contact')}}">
+  <div class="row">
+    <div class="medium-6 medium-centered columns">
+      <div class="signup-form-right">
+        {{ form.hidden_tag() }}
+        {{ render_field(form.name) }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.subject) }}
+        {{ render_field(form.message) }}
+      </div>
+    </div>
+  </div>
+  {{ render_field(form.submit) }}
+</form>
